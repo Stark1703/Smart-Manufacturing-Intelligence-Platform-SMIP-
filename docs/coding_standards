@@ -1,1 +1,9 @@
 
+Every generator has a main() function.
+Use type hints where practical.
+Use logging, not print().
+Separate data generation from file writing.
+Read paths from paths.py.
+Read business rules from factory_config.py.
+Use descriptive variable names.
+Add docstrings to public functions.
