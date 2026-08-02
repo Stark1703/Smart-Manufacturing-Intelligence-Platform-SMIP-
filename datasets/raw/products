@@ -1,1 +1,52 @@
 
+PRODUCTS = {
+
+    "GIS-72": {
+
+        "rated_voltage_kv": 72.5,
+
+        "target_force_kn": 145,
+
+        "force_tolerance_kn": 5,
+
+        "average_cycle_time_sec": 35
+
+    },
+
+    "GIS-145": {
+
+        "rated_voltage_kv": 145,
+
+        "target_force_kn": 170,
+
+        "force_tolerance_kn": 6,
+
+        "average_cycle_time_sec": 42
+
+    },
+
+    "GIS-245": {
+
+        "rated_voltage_kv": 245,
+
+        "target_force_kn": 195,
+
+        "force_tolerance_kn": 8,
+
+        "average_cycle_time_sec": 50
+
+    },
+
+    "GIS-420": {
+
+        "rated_voltage_kv": 420,
+
+        "target_force_kn": 220,
+
+        "force_tolerance_kn": 10,
+
+        "average_cycle_time_sec": 60
+
+    }
+
+}
