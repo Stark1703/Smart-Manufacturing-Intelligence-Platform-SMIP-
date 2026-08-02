@@ -91,3 +91,24 @@ PRODUCTS = {
     }
 
 }
+
+
+TEST_LIMITS = {
+
+    "dielectric": {
+
+        "minimum_voltage_kv": 75,
+
+        "maximum_leakage_current_ma": 5
+
+    },
+
+    "pressure": {
+
+        "pressure_bar": 8,
+
+        "maximum_leak_rate": 0.02
+
+    }
+
+}
