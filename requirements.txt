@@ -1,1 +1,16 @@
 
+# Core Data Processing
+pandas>=2.2.0
+numpy>=2.1.0
+
+# Synthetic Data Generation
+Faker>=37.0.0
+
+# Date Handling
+python-dateutil>=2.9.0
+
+# Environment Variables
+python-dotenv>=1.1.0
+
+# Utilities
+tqdm>=4.67.0
