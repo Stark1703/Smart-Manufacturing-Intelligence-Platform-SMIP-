@@ -1,1 +1,33 @@
 
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Virtual Environments
+.venv/
+venv/
+env/
+
+# IDEs
+.vscode/
+.idea/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# Python Environment
+.env
+
+# Logs
+*.log
+
+# Generated Data (optional)
+datasets/bronze/*
+datasets/silver/*
+datasets/gold/*
