@@ -298,6 +298,8 @@ class PressOperation:
 
     force_deviation_kn: float
 
+    displacement_mm: float      # <-- ADD THIS
+
     cycle_time_sec: int
 
     quality_result: QualityResult
