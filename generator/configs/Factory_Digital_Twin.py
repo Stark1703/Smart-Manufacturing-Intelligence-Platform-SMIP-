@@ -108,6 +108,13 @@ class PackagingType(Enum):
     CONTAINER = "Container Shipment"
 
 
+class Department(Enum):
+    PRESS_SHOP = "Press Shop"
+    ASSEMBLY = "Assembly"
+    QUALITY = "Quality"
+    TESTING = "Testing"
+    LOGISTICS = "Logistics"
+    
 
 @dataclass(slots=True)
 class Factory:
@@ -220,6 +227,33 @@ class Operator:
     mes_authorized: bool
 
     active: bool = True
+
+
+
+@dataclass(slots=True, frozen=True)
+class Operation:
+
+    operation_id: str
+
+    operation_number: int
+
+    operation_code: str
+
+    operation_name: str
+
+    department: Department
+
+    station_type: StationType
+
+    machine_type: MachineType
+
+    requires_operator: bool
+
+    requires_tool: bool
+
+    quality_checkpoint: bool
+
+    standard_cycle_time_sec: int
 
 
 
