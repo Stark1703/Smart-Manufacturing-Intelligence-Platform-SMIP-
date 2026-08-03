@@ -272,9 +272,11 @@ class PressProgram:
 
     program_id: str
 
-    program_name: str
-
     product_code: str
+
+    operation_number: int
+
+    operation_name: str
 
     machine_type: MachineType
 
