@@ -109,8 +109,7 @@ def simulate_material_scans(
             ],
 
             material_number=(
-                f"MAT-"
-                f"{random.randint(100000,999999)}"
+                f"MAT-{counter:08d}"
             ),
 
             batch_number=(
