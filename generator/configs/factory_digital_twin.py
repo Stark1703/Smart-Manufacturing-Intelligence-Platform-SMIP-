@@ -323,21 +323,31 @@ class ForceCurvePoint:
     force_kn: float
 
 @dataclass(slots=True)
-class PackagingRecord:
+class Packaging:
 
     package_id: str
 
     serial_number: str
 
-    work_order_id: str
+    execution_id: str
 
-    package_type: PackagingType
+    product_code: str
 
-    operator_id: str
+    package_type: str
 
-    packaging_timestamp: datetime
+    package_weight_kg: float
 
-    shipment_status: str
+    package_length_mm: int
+
+    package_width_mm: int
+
+    package_height_mm: int
+
+    packaging_start: datetime
+
+    packaging_end: datetime
+
+    packaging_status: str
 
 @dataclass(slots=True)
 class MaterialScan:
