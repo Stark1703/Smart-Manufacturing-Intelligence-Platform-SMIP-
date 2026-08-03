@@ -7,7 +7,7 @@ This module contains all configurable parameters used by the simulation
 engine. Changing values here changes the behaviour of the entire factory.
 
 Author:
-Jason + ChatGPT
+Sumanth Vempalle
 
 Version:
 1.0.0
