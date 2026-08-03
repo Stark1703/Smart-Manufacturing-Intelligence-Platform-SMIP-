@@ -114,7 +114,19 @@ class Department(Enum):
     QUALITY = "Quality"
     TESTING = "Testing"
     LOGISTICS = "Logistics"
-    
+
+class Priority(Enum):
+    LOW = "Low"
+    NORMAL = "Normal"
+    HIGH = "High"
+    URGENT = "Urgent"
+
+
+class WorkOrderStatus(Enum):
+    RELEASED = "Released"
+    IN_PROGRESS = "In Progress"
+    COMPLETED = "Completed"
+    CANCELLED = "Cancelled"
 
 @dataclass(slots=True)
 class Factory:
@@ -155,19 +167,19 @@ class WorkOrder:
 
     quantity: int
 
+    priority: Priority
+
     production_line: str
 
-    planned_start: str
+    planned_start: datetime
 
-    planned_end: str
-
-    priority: str
-
-    status: str
+    planned_finish: datetime
 
     routing_version: str
 
-    created_by: str
+    planner: str
+
+    status: WorkOrderStatus
 
 
 @dataclass(slots=True)
