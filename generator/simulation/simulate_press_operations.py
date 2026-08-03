@@ -251,3 +251,7 @@ def validate(
     logger.info(
         "Press Operation validation successful."
     )
+
+
+if __name__ == "__main__":
+    main()
