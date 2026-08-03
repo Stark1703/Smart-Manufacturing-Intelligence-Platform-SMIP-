@@ -19,7 +19,7 @@ from datetime import timedelta
 
 import pandas as pd
 
-from generator.configs.Factory_Digital_Twin import (
+from generator.configs.factory_digital_twin import (
     ExecutionStatus,
     ProductionExecution,
 )
@@ -78,14 +78,14 @@ def generate_executions(
 
     for index, row in work_orders.iterrows():
 
-       execution = ProductionExecution(
+        execution = ProductionExecution(
 
             execution_id=f"EXEC-{index+1:06d}",
 
             work_order_id=row["work_order_id"],
 
             sap_order_number=row["sap_order_number"],
-   
+
             product_code=row["product_code"],
 
             quantity=int(row["quantity"]),
@@ -101,8 +101,7 @@ def generate_executions(
             execution_end=row["planned_finish"],
 
             status=ExecutionStatus.PLANNED,
-
-)
+        )
 
         executions.append(execution)
 
@@ -112,7 +111,6 @@ def generate_executions(
     )
 
     return executions
-
 
 # ============================================================
 # Validation
