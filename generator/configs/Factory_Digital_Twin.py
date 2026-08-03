@@ -299,9 +299,9 @@ class FactoryLayout:
 
 
 
-def to_dict(objects):
+#def to_dict(objects):
 
-    return [asdict(obj) for obj in objects]
+    #return [asdict(obj) for obj in objects]
 
 
 #generate_machine_layout()
