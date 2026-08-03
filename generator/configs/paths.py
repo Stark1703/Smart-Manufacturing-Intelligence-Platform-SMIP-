@@ -62,6 +62,11 @@ TEST_RESULTS_PATH = TRANSACTIONAL_DATA / "test_results.csv"
 
 PACKAGING_PATH = TRANSACTIONAL_DATA / "packaging.csv"
 
+OPERATOR_LOGINS_PATH = TRANSACTIONAL_DATA / "operator_logins.csv"
+
+MATERIAL_SCANS_PATH = TRANSACTIONAL_DATA / "material_scans.csv"
+
+
 # ============================================================
 # Analytics
 # ============================================================
