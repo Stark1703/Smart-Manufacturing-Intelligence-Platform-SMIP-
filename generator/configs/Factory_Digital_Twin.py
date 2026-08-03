@@ -35,7 +35,21 @@ class ShiftType(Enum):
     MORNING = "Morning"
     EVENING = "Evening"
     NIGHT = "Night"
+    
+    @property
+    def release_time(self):
+        from generator.configs.simulation_config import SHIFT_RELEASE_TIME
+        return SHIFT_RELEASE_TIME[self.value]
 
+    @property
+    def start_time(self):
+        from generator.configs.simulation_config import SHIFT_TIMES
+        return SHIFT_TIMES[self.value]["start"]
+
+    @property
+    def end_time(self):
+        from generator.configs.simulation_config import SHIFT_TIMES
+        return SHIFT_TIMES[self.value]["end"]
 
 class QualityResult(Enum):
     PASS = "PASS"
@@ -115,11 +129,6 @@ class Department(Enum):
     TESTING = "Testing"
     LOGISTICS = "Logistics"
 
-class Priority(Enum):
-    LOW = "Low"
-    NORMAL = "Normal"
-    HIGH = "High"
-    URGENT = "Urgent"
 
 
 class WorkOrderStatus(Enum):
@@ -128,11 +137,23 @@ class WorkOrderStatus(Enum):
     COMPLETED = "Completed"
     CANCELLED = "Cancelled"
 
+
+class ExecutionStatus(Enum):
+    PLANNED = "Planned"
+    READY = "Ready"
+    RUNNING = "Running"
+    PAUSED = "Paused"
+    COMPLETED = "Completed"
+    FAILED = "Failed"
+    CANCELLED = "Cancelled"
+
+
 class Priority(Enum):
     LOW = "Low"
     NORMAL = "Normal"
     HIGH = "High"
     URGENT = "Urgent"
+
 
 @dataclass(slots=True)
 class Factory:
