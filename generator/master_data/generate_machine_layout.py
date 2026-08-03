@@ -16,6 +16,8 @@ from __future__ import annotations
 import logging
 
 from generator.configs.factory_digital_twin import (
+    Factory,
+    FactoryLayout,
     Machine,
     MachineStatus,
     MachineType,
