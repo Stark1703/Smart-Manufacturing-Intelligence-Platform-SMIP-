@@ -5,7 +5,7 @@ generate_production_executions.py
 Generate MES Production Executions from SAP Work Orders.
 
 Author:
-Sumanth Vempalle + ChatGPT
+Sumanth Vempalle
 
 Version:
 1.0.0
@@ -78,13 +78,17 @@ def generate_executions(
 
     for index, row in work_orders.iterrows():
 
-        execution = ProductionExecution(
+       execution = ProductionExecution(
 
             execution_id=f"EXEC-{index+1:06d}",
 
             work_order_id=row["work_order_id"],
 
             sap_order_number=row["sap_order_number"],
+   
+            product_code=row["product_code"],
+
+            quantity=int(row["quantity"]),
 
             plant_code="PLANT-001",
 
@@ -98,7 +102,7 @@ def generate_executions(
 
             status=ExecutionStatus.PLANNED,
 
-        )
+)
 
         executions.append(execution)
 
