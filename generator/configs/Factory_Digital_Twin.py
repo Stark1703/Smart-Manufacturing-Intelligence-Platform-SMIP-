@@ -161,6 +161,10 @@ class Station:
 
     station_id: str
 
+    line_id: str
+
+    station_code: str
+
     station_type: StationType
 
     sequence: int
