@@ -193,6 +193,29 @@ class WorkOrder:
 
 
 @dataclass(slots=True)
+class ProductionExecution:
+
+    execution_id: str
+
+    work_order_id: str
+
+    sap_order_number: str
+
+    plant_code: str
+
+    production_line: str
+
+    planned_shift: ShiftType
+
+    execution_start: datetime
+
+    execution_end: datetime
+
+    status: ExecutionStatus
+
+
+
+@dataclass(slots=True)
 class ProductionHall:
 
     hall_id: str
