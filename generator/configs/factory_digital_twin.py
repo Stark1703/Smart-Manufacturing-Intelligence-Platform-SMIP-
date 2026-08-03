@@ -356,6 +356,10 @@ class MaterialScan:
 
     serial_number: str
 
+    execution_id: str
+
+    product_code: str
+
     material_number: str
 
     batch_number: str
@@ -363,6 +367,8 @@ class MaterialScan:
     supplier: str
 
     scan_timestamp: datetime
+
+    scan_status: str
 
 @dataclass(slots=True)
 class TestResult:
