@@ -272,17 +272,29 @@ class PressProgram:
 
     program_id: str
 
+    program_name: str
+
     product_code: str
 
-    tool_id: str
+    machine_type: MachineType
 
-    machine_type: str
+    tool_type: ToolType
 
     target_force_kn: float
 
     force_tolerance_kn: float
 
-    max_displacement_mm: float
+    minimum_force_kn: float
+
+    maximum_force_kn: float
+
+    target_displacement_mm: float
+
+    displacement_tolerance_mm: float
+
+    maximum_cycle_time_sec: int
+
+    active: bool = True
 
 
 
