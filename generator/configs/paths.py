@@ -44,3 +44,14 @@ ASSEMBLY_PATH = RAW_DATA / "assembly"
 TESTING_PATH = RAW_DATA / "testing"
 
 PACKAGING_PATH = RAW_DATA / "packaging"
+
+from pathlib import Path
+
+DATA_ROOT = Path("data")
+
+MASTER_DATA = DATA_ROOT / "master_data"
+
+MACHINES_PATH = MASTER_DATA / "machines.csv"
+HALLS_PATH = MASTER_DATA / "production_halls.csv"
+LINES_PATH = MASTER_DATA / "production_lines.csv"
+STATIONS_PATH = MASTER_DATA / "stations.csv"
