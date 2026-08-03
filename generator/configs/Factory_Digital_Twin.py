@@ -74,7 +74,11 @@ class StationType(Enum):
     PRESSURE_TEST = "Pressure Test"
     PACKAGING = "Packaging"
 
-
+class OperatorSkill(Enum):
+    TRAINEE = "Trainee"
+    JUNIOR = "Junior"
+    SENIOR = "Senior"
+    EXPERT = "Expert"
 
 class ToolType(Enum):
     PRESS_TOOL = "Press Tool"
@@ -191,6 +195,32 @@ class Machine:
     status: MachineStatus
 
     commissioned_year: int
+
+
+
+@dataclass(slots=True)
+class Operator:
+
+    operator_id: str
+
+    first_name: str
+
+    last_name: str
+
+    employee_number: str
+
+    shift: ShiftType
+
+    skill_level: OperatorSkill
+
+    primary_machine_type: MachineType
+
+    years_of_experience: int
+
+    mes_authorized: bool
+
+    active: bool = True
+
 
 
 @dataclass(slots=True)
