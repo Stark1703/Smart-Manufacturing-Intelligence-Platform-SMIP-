@@ -179,7 +179,7 @@ class Machine:
     line_id: str
 
     station_id: str
-    
+
     station_sequence: int
 
     machine_name: str
@@ -191,7 +191,6 @@ class Machine:
     status: MachineStatus
 
     commissioned_year: int
-
 
 
 @dataclass(slots=True)
