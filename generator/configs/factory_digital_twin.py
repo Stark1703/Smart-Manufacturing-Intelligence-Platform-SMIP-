@@ -260,7 +260,7 @@ class ProductionLine:
 
     line_name: str
 
-    MachineStatus: str
+    status: MachineStatus
 
 
 @dataclass(slots=True)
