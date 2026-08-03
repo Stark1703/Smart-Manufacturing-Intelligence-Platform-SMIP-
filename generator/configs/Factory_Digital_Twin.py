@@ -145,6 +145,32 @@ class Factory:
 
 
 @dataclass(slots=True)
+class WorkOrder:
+
+    work_order_id: str
+
+    sap_order_number: str
+
+    product_code: str
+
+    quantity: int
+
+    production_line: str
+
+    planned_start: str
+
+    planned_end: str
+
+    priority: str
+
+    status: str
+
+    routing_version: str
+
+    created_by: str
+
+
+@dataclass(slots=True)
 class ProductionHall:
 
     hall_id: str
