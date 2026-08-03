@@ -1,13 +1,13 @@
 """
 production_planner.py
 
-Production Planning Engine
+Production Planning Engine for the Smart Manufacturing Lakehouse.
 
-Responsible for creating realistic SAP work orders for the
-Smart Manufacturing Lakehouse.
+This module generates realistic SAP work orders based on the
+Product Master and simulation configuration.
 
 Author:
-Jason + ChatGPT
+Sumanth Vempalle + ChatGPT
 
 Version:
 1.0.0
@@ -22,7 +22,7 @@ from datetime import timedelta
 
 import pandas as pd
 
-from generator.configs.factory_digital_twin import (
+from generator.configs.Factory_Digital_Twin import (
     Priority,
     ShiftType,
     WorkOrder,
@@ -32,20 +32,28 @@ from generator.configs.factory_digital_twin import (
 from generator.configs.simulation_config import (
     START_DATE,
     SIMULATION_DAYS,
-    PRODUCT_SELECTION_WEIGHTS,
     MIN_WORK_ORDERS_PER_DAY,
     MAX_WORK_ORDERS_PER_DAY,
-    PLANNER_NAME,
-    ROUTING_VERSION,
+    PRODUCT_SELECTION_WEIGHTS,
     PRODUCTION_LINES,
+    ROUTING_VERSION,
+    PLANNER_NAME,
     RANDOM_SEED,
 )
 
 
 class ProductionPlanner:
-
     """
     Production Planning Engine.
+
+    Responsibilities
+    ----------------
+    - Generate daily production plans
+    - Select products using weighted probabilities
+    - Generate SAP Work Orders
+    - Assign production lines
+    - Assign priorities
+    - Calculate planned start and finish timestamps
     """
 
     def __init__(self, products: pd.DataFrame):
@@ -58,19 +66,21 @@ class ProductionPlanner:
 
         self.work_order_counter = 1
 
-        self.sap_counter = 5000000000
+        self.sap_counter = 5_000_000_000
 
         self.line_counter = 0
 
-
+    # ============================================================
+    # Public API
+    # ============================================================
 
     def generate(self) -> list[WorkOrder]:
-
         """
-        Generate work orders for all simulation days.
+        Generate all work orders for the configured
+        simulation period.
         """
 
-        work_orders = []
+        work_orders: list[WorkOrder] = []
 
         for _ in range(SIMULATION_DAYS):
 
@@ -82,59 +92,79 @@ class ProductionPlanner:
 
         return work_orders
 
-
+    # ============================================================
+    # Daily Planning
+    # ============================================================
 
     def _generate_day(self) -> list[WorkOrder]:
+        """
+        Generate one production day.
+        """
 
-        daily_orders = []
+        daily_orders: list[WorkOrder] = []
 
-        count = self.random.randint(
+        order_count = self.random.randint(
             MIN_WORK_ORDERS_PER_DAY,
             MAX_WORK_ORDERS_PER_DAY,
         )
 
         release_time = datetime.combine(
             self.current_date,
-            ShiftType.MORNING.start_time,
+            ShiftType.MORNING.release_time,
         )
 
-        for index in range(count):
+        for index in range(order_count):
+
+            planned_start = (
+                release_time +
+                timedelta(minutes=index * 20)
+            )
 
             daily_orders.append(
-
                 self._create_work_order(
-                    release_time + timedelta(
-                        minutes=index * 20
-                    )
+                    planned_start
                 )
-
             )
 
         return daily_orders
-          
-      
- def _create_work_order(
+
+    # ============================================================
+    # Work Order Creation
+    # ============================================================
+
+    def _create_work_order(
         self,
         planned_start: datetime,
     ) -> WorkOrder:
+        """
+        Create one WorkOrder object.
+        """
 
         product = self._select_product()
 
         quantity = self._select_quantity(
-            product["product_code"]
+            product
         )
 
-        cycle = product["average_cycle_time_sec"]
-
-        finish = planned_start + timedelta(
-            minutes=max(quantity * cycle / 60, 30)
+        cycle_time = int(
+            product["average_cycle_time_sec", 180]
         )
 
-        work_order = WorkOrder(
+        planned_finish = (
+            planned_start +
+            timedelta(
+                minutes=max(
+                    quantity * cycle_time / 60,
+                    30,
+                )
+            )
+        )
 
-            work_order_id=self._next_work_order(),
+        return WorkOrder(
 
-            sap_order_number=self._next_sap(),
+            work_order_id=self._next_work_order_id(),
+
+            sap_order_number=self._next_sap_order(),
 
             product_code=product["product_code"],
 
@@ -148,7 +178,7 @@ class ProductionPlanner:
 
             planned_start=planned_start,
 
-            planned_finish=finish,
+            planned_finish=planned_finish,
 
             routing_version=ROUTING_VERSION,
 
@@ -158,52 +188,70 @@ class ProductionPlanner:
 
         )
 
-        return work_order
+    # ============================================================
+    # Product Selection
+    # ============================================================
 
-    def _select_product(self):
+    def _select_product(self) -> pd.Series:
+        """
+        Select a product using weighted probabilities.
+        """
 
-        weights = PRODUCT_SELECTION_WEIGHTS
+        product_codes = list(PRODUCT_SELECTION_WEIGHTS.keys())
+        weights = list(PRODUCT_SELECTION_WEIGHTS.values())
 
-        codes = list(weights.keys())
-
-        probabilities = list(weights.values())
-
-        selected = self.random.choices(
-            codes,
-            weights=probabilities,
+        selected_code = self.random.choices(
+            population=product_codes,
+            weights=weights,
             k=1,
         )[0]
 
-        return self.products.loc[
-            self.products["product_code"] == selected
-        ].iloc[0]
+        product = self.products.loc[
+            self.products["product_code"] == selected_code
+        ]
+
+        return product.iloc[0]
+
+    # ============================================================
+    # Quantity Selection
+    # ============================================================
 
     def _select_quantity(
         self,
-        product_code: str,
+        product: pd.Series,
     ) -> int:
+        """
+        Determine production quantity based on
+        rated voltage.
+        """
 
-        if "072" in product_code:
-            return self.random.randint(3,5)
+        voltage = float(product["rated_voltage_kv"])
 
-        if "145" in product_code:
-            return self.random.randint(2,4)
+        if voltage <= 72.5:
+            return self.random.randint(3, 5)
 
-        if "170" in product_code:
-            return self.random.randint(2,3)
+        if voltage <= 145:
+            return self.random.randint(2, 4)
 
-        if "245" in product_code:
-            return self.random.randint(1,3)
+        if voltage <= 170:
+            return self.random.randint(2, 3)
 
-        if "300" in product_code:
-            return self.random.randint(1,2)
+        if voltage <= 245:
+            return self.random.randint(1, 3)
 
-        if "420" in product_code:
-            return self.random.randint(1,2)
+        if voltage <= 420:
+            return self.random.randint(1, 2)
 
         return 1
 
+    # ============================================================
+    # Priority Selection
+    # ============================================================
+
     def _select_priority(self) -> Priority:
+        """
+        Select work order priority.
+        """
 
         priorities = [
             Priority.LOW,
@@ -212,33 +260,42 @@ class ProductionPlanner:
             Priority.URGENT,
         ]
 
-        weights = [10,65,20,5]
+        weights = [10, 65, 20, 5]
 
         return self.random.choices(
-            priorities,
+            population=priorities,
             weights=weights,
             k=1,
         )[0]
 
-
+    # ============================================================
+    # Production Line Allocation
+    # ============================================================
 
     def _next_line(self) -> str:
+        """
+        Allocate work orders using round-robin scheduling.
+        """
 
-        line = PRODUCTION_LINES[
-            self.line_counter
-        ]
+        line = PRODUCTION_LINES[self.line_counter]
 
         self.line_counter += 1
 
-        if self.line_counter == len(PRODUCTION_LINES):
+        if self.line_counter >= len(PRODUCTION_LINES):
             self.line_counter = 0
 
         return line
 
+    # ============================================================
+    # Work Order ID Generation
+    # ============================================================
 
-    def _next_work_order(self) -> str:
+    def _next_work_order_id(self) -> str:
+        """
+        Generate unique Work Order ID.
+        """
 
-        value = (
+        work_order = (
             f"WO-"
             f"{self.current_date:%Y%m%d}-"
             f"{self.work_order_counter:06d}"
@@ -246,14 +303,38 @@ class ProductionPlanner:
 
         self.work_order_counter += 1
 
-        return value
+        return work_order
 
-    def _next_sap(self) -> str:
+    # ============================================================
+    # SAP Order Number Generation
+    # ============================================================
+
+    def _next_sap_order(self) -> str:
+        """
+        Generate SAP Production Order number.
+        """
 
         self.sap_counter += 1
 
         return str(self.sap_counter)
 
-planner = ProductionPlanner(products)
+    # ============================================================
+    # Summary
+    # ============================================================
 
-orders = planner.generate()
+    def summary(
+        self,
+        work_orders: list[WorkOrder],
+    ) -> None:
+        """
+        Print a summary of generated work orders.
+        """
+
+        print("\n========================================")
+        print(" Production Planning Summary")
+        print("========================================")
+        print(f"Simulation Days : {SIMULATION_DAYS}")
+        print(f"Work Orders     : {len(work_orders)}")
+        print(f"Products         : {self.products['product_code'].nunique()}")
+        print(f"Production Lines : {len(PRODUCTION_LINES)}")
+        print("========================================")
