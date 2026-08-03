@@ -423,3 +423,136 @@ def build_factory_layout() -> FactoryLayout:
     logger.info("Factory layout successfully created.")
 
     return layout
+
+
+# =============================================================================
+# CSV Export
+# =============================================================================
+
+import pandas as pd
+
+from generator.configs.factory_digital_twin import to_dict
+from paths import (
+    HALLS_PATH,
+    LINES_PATH,
+    MACHINES_PATH,
+    STATIONS_PATH,
+)
+
+
+def export_factory_layout(layout: FactoryLayout) -> None:
+    """
+    Export the complete factory layout to CSV files.
+    """
+
+    HALLS_PATH.parent.mkdir(parents=True, exist_ok=True)
+
+    pd.DataFrame(to_dict(layout.halls)).to_csv(
+        HALLS_PATH,
+        index=False,
+    )
+
+    pd.DataFrame(to_dict(layout.lines)).to_csv(
+        LINES_PATH,
+        index=False,
+    )
+
+    pd.DataFrame(to_dict(layout.stations)).to_csv(
+        STATIONS_PATH,
+        index=False,
+    )
+
+    pd.DataFrame(to_dict(layout.machines)).to_csv(
+        MACHINES_PATH,
+        index=False,
+    )
+
+    logger.info("Factory layout exported successfully.")
+
+
+# =============================================================================
+# Summary
+# =============================================================================
+
+def print_summary(layout: FactoryLayout) -> None:
+    """
+    Print a summary of the generated factory.
+    """
+
+    logger.info("===========================================")
+    logger.info("FACTORY DIGITAL TWIN")
+    logger.info("===========================================")
+
+    logger.info("Factory           : %s", layout.factory.name)
+
+    logger.info("Production Halls  : %d", len(layout.halls))
+
+    logger.info("Production Lines  : %d", len(layout.lines))
+
+    logger.info("Stations          : %d", len(layout.stations))
+
+    logger.info("Machines          : %d", len(layout.machines))
+
+    logger.info("===========================================")
+
+
+
+# =============================================================================
+# Main
+# =============================================================================
+
+def main() -> None:
+
+    logger.info("Starting Machine Layout Generation...")
+
+    layout = build_factory_layout()
+
+    export_factory_layout(layout)
+
+    print_summary(layout)
+
+    logger.info("Machine Layout Generation Completed.")
+
+
+if __name__ == "__main__":
+    main()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
