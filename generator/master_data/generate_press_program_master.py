@@ -55,86 +55,63 @@ for _, product in product_df.iterrows():
 
     # Generate 4 press-fit operations per product
     
-    def generate_press_programs(product_df: pd.DataFrame) -> list[PressProgram]:
+def generate_press_programs(
+    product_df: pd.DataFrame,
+) -> list[PressProgram]:
+    """
+    Generate press programs for every product.
 
-       programs = []
+    Assumption:
+    Each product has 4 press-fit operations.
+    """
 
-       counter = 1
-        
-for _, product in product_df.iterrows():
+    programs: list[PressProgram] = []
 
-           target_force = product["target_force_kn"]
-           tolerance = product["force_tolerance_kn"]
-           displacement = 25.0
-           cycle_time = product["average_cycle_time_sec"]
-    
-      for operation_number in range(1, 5):
+    counter = 1
 
-        program = PressProgram(
+    for _, product in product_df.iterrows():
 
-            program_id=f"PP-{counter:04d}",
+        target_force = float(product["target_force_kn"])
+        tolerance = float(product["force_tolerance_kn"])
+        displacement = 25.0
+        cycle_time = int(product["average_cycle_time_sec"])
 
-            product_code=product["product_code"],
+        for operation_number in range(1, 5):
 
-            operation_number=operation_number,
+            program = PressProgram(
 
-            operation_name=f"PRESS_FIT_{operation_number}",
+                program_id=f"PP-{counter:04d}",
 
-            machine_type=MachineType.PRESS_FITTING,
+                product_code=product["product_code"],
 
-            tool_type=ToolType.PRESS_TOOL,
+                operation_number=operation_number,
 
-            target_force_kn=target_force,
+                operation_name=f"PRESS_FIT_{operation_number}",
 
-            force_tolerance_kn=tolerance,
+                machine_type=MachineType.PRESS_FITTING,
 
-            minimum_force_kn=target_force - tolerance,
+                tool_type=ToolType.PRESS_TOOL,
 
-            maximum_force_kn=target_force + tolerance,
+                target_force_kn=target_force,
 
-            target_displacement_mm=round(displacement, 2),
+                force_tolerance_kn=tolerance,
 
-            displacement_tolerance_mm=1.5,
+                minimum_force_kn=target_force - tolerance,
 
-            maximum_cycle_time_sec=cycle_time,
+                maximum_force_kn=target_force + tolerance,
 
-        )
+                target_displacement_mm=round(displacement, 2),
 
-        programs.append(program)
+                displacement_tolerance_mm=1.5,
 
-        counter += 1
+                maximum_cycle_time_sec=cycle_time,
 
-       program = PressProgram(
+                active=True,
+            )
 
-          program_id=f"PP-{counter:04d}",
+            programs.append(program)
 
-          product_code=product["product_code"],
-
-          operation_number=operation_number,
-
-          machine_type=MachineType.PRESS_FITTING,
-
-          tool_type=ToolType.PRESS_TOOL,
-
-          target_force_kn=target_force,
-
-          force_tolerance_kn=tolerance,
-
-          minimum_force_kn=target_force - tolerance,
-
-          maximum_force_kn=target_force + tolerance,
-
-          target_displacement_mm=round(displacement, 2),
-
-          displacement_tolerance_mm=1.5,
-
-          maximum_cycle_time_sec=cycle_time,
-
-)
-
-        programs.append(program)
-
-        counter += 1
+            counter += 1
 
     logger.info(
         "Generated %d press programs.",
@@ -142,7 +119,6 @@ for _, product in product_df.iterrows():
     )
 
     return programs
-
 
 def validate_programs(
     programs: list[PressProgram],
