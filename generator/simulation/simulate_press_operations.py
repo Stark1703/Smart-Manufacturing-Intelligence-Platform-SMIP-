@@ -20,7 +20,7 @@ from datetime import timedelta
 
 import pandas as pd
 
-from generator.configs.Factory_Digital_Twin import (
+from generator.configs.factory_digital_twin import (
     PressOperation,
     QualityResult,
 )
