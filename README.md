@@ -1379,3 +1379,258 @@ Feedback, suggestions, and contributions are always welcome.
 **Status:** Active Development
 
 The project currently provides a complete synthetic manufacturing data generation platform and serves as the foundation for a Databricks-based Smart Manufacturing Lakehouse and analytics solution.
+
+# 📊 Manufacturing KPIs
+
+The generated datasets support a wide range of manufacturing analytics and Key Performance Indicators (KPIs).
+
+---
+
+## Production KPIs
+
+| KPI | Description | Source Dataset |
+|------|-------------|----------------|
+| Total Work Orders | Number of released work orders | work_orders.csv |
+| Total Production Quantity | Total manufactured units | production_executions.csv |
+| Production Throughput | Units produced per day/shift | production_executions.csv |
+| Work Order Completion | Completed vs. released orders | production_executions.csv |
+
+---
+
+## Machine KPIs
+
+| KPI | Description | Source Dataset |
+|------|-------------|----------------|
+| Machine Utilization | Operating time per machine | press_operations.csv |
+| Machine Availability | Available production time | machines.csv |
+| Machine Load | Operations assigned per machine | press_operations.csv |
+
+---
+
+## Operator KPIs
+
+| KPI | Description | Source Dataset |
+|------|-------------|----------------|
+| Login Sessions | Total operator sessions | operator_logins.csv |
+| Operator Utilization | Active production time | operator_logins.csv |
+| Shift Distribution | Workload by shift | operator_logins.csv |
+
+---
+
+## Quality KPIs
+
+| KPI | Description | Source Dataset |
+|------|-------------|----------------|
+| Pass Rate | PASS vs FAIL ratio | testing_results.csv |
+| Test Execution Count | Number of executed tests | testing_results.csv |
+| First Pass Yield | Percentage of products passing all tests | testing_results.csv |
+
+---
+
+## Process KPIs
+
+| KPI | Description | Source Dataset |
+|------|-------------|----------------|
+| Average Cycle Time | Manufacturing cycle duration | press_operations.csv |
+| Press Force Distribution | Force applied during assembly | force_curves.csv |
+| Packaging Throughput | Finished packages | packaging.csv |
+
+---
+
+# 📈 Example SQL Analytics
+
+Example queries that can be executed after loading the datasets into Databricks or SQL Server.
+
+---
+
+## Total Production
+
+```sql
+SELECT
+    COUNT(*) AS total_work_orders
+FROM work_orders;
+```
+
+---
+
+## Production by Product
+
+```sql
+SELECT
+    product_code,
+    SUM(quantity) AS total_quantity
+FROM production_executions
+GROUP BY product_code
+ORDER BY total_quantity DESC;
+```
+
+---
+
+## Daily Production
+
+```sql
+SELECT
+    DATE(execution_start) AS production_date,
+    SUM(quantity) AS produced_units
+FROM production_executions
+GROUP BY DATE(execution_start)
+ORDER BY production_date;
+```
+
+---
+
+## Test Pass Rate
+
+```sql
+SELECT
+    result,
+    COUNT(*) AS total
+FROM testing_results
+GROUP BY result;
+```
+
+---
+
+## Machine Utilization
+
+```sql
+SELECT
+    machine_id,
+    COUNT(*) AS operations
+FROM press_operations
+GROUP BY machine_id
+ORDER BY operations DESC;
+```
+
+---
+
+# 🏗️ Databricks Lakehouse Mapping
+
+The generated datasets are intended to be processed using the Medallion Architecture.
+
+| Layer | Purpose |
+|--------|----------|
+| Bronze | Raw CSV ingestion |
+| Silver | Data cleansing, validation, enrichment |
+| Gold | Business KPIs, reporting, dashboards |
+
+---
+
+## Bronze Layer
+
+Raw CSV ingestion.
+
+```
+CSV Files
+
+↓
+
+Bronze Delta Tables
+```
+
+Examples:
+
+```
+bronze_products
+
+bronze_work_orders
+
+bronze_press_operations
+
+bronze_force_curves
+```
+
+---
+
+## Silver Layer
+
+Business transformations.
+
+Examples:
+
+- Product dimension
+- Machine dimension
+- Operator dimension
+- Calendar dimension
+- Production fact table
+- Quality fact table
+
+---
+
+## Gold Layer
+
+Business-ready datasets.
+
+Examples:
+
+```
+gold_daily_production
+
+gold_machine_oee
+
+gold_quality_summary
+
+gold_operator_performance
+
+gold_force_statistics
+
+gold_packaging_summary
+```
+
+---
+
+# 🔄 Data Lineage
+
+The project maintains complete manufacturing traceability.
+
+```text
+Product
+    │
+    ▼
+Work Order
+    │
+    ▼
+Production Execution
+    │
+    ▼
+Serial Number
+    │
+    ├──────────────┐
+    ▼              ▼
+Material Scan   Operator Login
+    │              │
+    └──────┬───────┘
+           ▼
+   Press Operation
+           │
+           ▼
+      Force Curve
+           │
+           ▼
+      Test Result
+           │
+           ▼
+      Packaging
+```
+
+This lineage enables complete product genealogy from raw material receipt through manufacturing, quality inspection, and packaging.
+
+---
+
+# 🎯 Project Objectives
+
+The Smart Manufacturing Intelligence Platform was developed to demonstrate:
+
+- Factory Digital Twin modeling
+- Manufacturing Execution System (MES) concepts
+- Synthetic industrial data generation
+- Manufacturing traceability
+- Industrial IoT simulation
+- Databricks Lakehouse integration
+- SQL analytics
+- Power BI reporting
+- Data engineering workflows
+- Manufacturing analytics and KPI development
+
+The project serves as a practical foundation for learning and demonstrating modern manufacturing data engineering techniques using realistic synthetic datasets.
+
