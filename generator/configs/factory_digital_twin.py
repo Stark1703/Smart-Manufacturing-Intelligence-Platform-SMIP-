@@ -238,7 +238,26 @@ class ProductionExecution:
 
     status: ExecutionStatus
 
+@dataclass(slots=True)
+class SerialNumber:
 
+    serial_number: str
+
+    execution_id: str
+
+    work_order_id: str
+
+    sap_order_number: str
+
+    product_code: str
+
+    production_line: str
+
+    unit_number: int
+
+    created_timestamp: datetime
+
+    status: ExecutionStatus
 
 @dataclass(slots=True)
 class ProductionHall:
