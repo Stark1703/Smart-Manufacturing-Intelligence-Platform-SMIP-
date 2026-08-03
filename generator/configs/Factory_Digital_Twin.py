@@ -204,13 +204,15 @@ class Tool:
 
     tool_type: ToolType
 
-    calibration_interval_days: int
+    machine_type: MachineType
 
-    status: MachineStatus
+    calibration_interval_days: int
 
     last_calibration: Optional[str] = None
 
     next_calibration: Optional[str] = None
+
+    status: MachineStatus = MachineStatus.ACTIVE
 
 
 @dataclass(slots=True, frozen=True)
