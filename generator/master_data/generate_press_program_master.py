@@ -1,4 +1,3 @@
-
 """
 generate_press_program_master.py
 
@@ -37,7 +36,6 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
-
 def load_products() -> pd.DataFrame:
 
     df = pd.read_csv(PRODUCTS_PATH)
@@ -46,23 +44,15 @@ def load_products() -> pd.DataFrame:
 
     return df
 
-for _, product in product_df.iterrows():
 
-    target_force = product["target_force_kn"]
-    tolerance = product["force_tolerance_kn"]
-    displacement = 25.0
-    cycle_time = product["average_cycle_time_sec"]
-
-    # Generate 4 press-fit operations per product
-    
 def generate_press_programs(
     product_df: pd.DataFrame,
 ) -> list[PressProgram]:
     """
-    Generate press programs for every product.
+    Generate Press Program Master.
 
     Assumption:
-    Each product has 4 press-fit operations.
+    Every product has 4 press-fit operations.
     """
 
     programs: list[PressProgram] = []
@@ -120,6 +110,7 @@ def generate_press_programs(
 
     return programs
 
+
 def validate_programs(
     programs: list[PressProgram],
 ) -> None:
@@ -127,13 +118,12 @@ def validate_programs(
     ids = {p.program_id for p in programs}
 
     if len(ids) != len(programs):
-        raise ValueError(
-            "Duplicate Program IDs."
-        )
+        raise ValueError("Duplicate Program IDs.")
 
     logger.info(
         "Press Program validation successful."
     )
+
 
 def export_programs(
     programs: list[PressProgram],
@@ -154,7 +144,6 @@ def export_programs(
     logger.info(
         "Press Programs exported."
     )
-
 
 
 def main():
