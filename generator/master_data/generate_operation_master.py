@@ -5,7 +5,7 @@ generate_operation_master.py
 Generate Operation Master for the Smart Manufacturing Lakehouse.
 
 Author:
-Jason + ChatGPT
+Sumanth Vempalle
 
 Version:
 1.0.0
