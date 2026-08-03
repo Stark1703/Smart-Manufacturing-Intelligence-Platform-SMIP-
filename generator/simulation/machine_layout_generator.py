@@ -287,3 +287,139 @@ def generate_stations() -> list[Station]:
     logger.info("Generated %d stations", len(stations))
 
     return stations
+
+
+
+# =============================================================================
+# Machine Generator
+# =============================================================================
+
+def generate_machines() -> list[Machine]:
+    """
+    Generate one machine for every station in every production line.
+
+    Returns
+    -------
+    list[Machine]
+    """
+
+    machines: list[Machine] = []
+
+    total_lines = NUMBER_OF_HALLS * LINES_PER_HALL
+
+    for line_number in range(1, total_lines + 1):
+
+        for station_code, sequence, station_type in STATION_TEMPLATES:
+
+            template = get_machine_template(station_type)
+
+            machines.append(
+                Machine(
+                    machine_id=machine_id(
+                        prefix=template["prefix"],
+                        line_number=line_number,
+                        station_code=station_code,
+                    ),
+                    line_id=line_id(line_number),
+                    station_id=station_id(
+                        line_number=line_number,
+                        station_code=station_code,
+                    ),
+                    station_sequence=sequence,
+                    machine_name=template["name"],
+                    machine_type=template["machine_type"],
+                    manufacturer=template["manufacturer"],
+                    status=MachineStatus.ACTIVE,
+                    commissioned_year=2024,
+                )
+            )
+
+    logger.info("Generated %d machines", len(machines))
+
+    return machines
+
+
+# =============================================================================
+# Validation
+# =============================================================================
+
+def validate_machine_layout(machines: list[Machine]) -> None:
+    """
+    Validate generated machine layout.
+    """
+
+    machine_ids = {machine.machine_id for machine in machines}
+
+    if len(machine_ids) != len(machines):
+        raise ValueError("Duplicate machine IDs detected.")
+
+    expected_machine_count = (
+        NUMBER_OF_HALLS
+        * LINES_PER_HALL
+        * len(STATION_TEMPLATES)
+    )
+
+    if len(machines) != expected_machine_count:
+        raise ValueError(
+            f"Expected {expected_machine_count} machines "
+            f"but generated {len(machines)}."
+        )
+
+    logger.info("Machine layout validation successful.")
+
+
+# =============================================================================
+# Factory Layout Builder
+# =============================================================================
+
+def build_factory_layout() -> FactoryLayout:
+    """
+    Build the complete factory layout.
+
+    Returns
+    -------
+    FactoryLayout
+    """
+
+    logger.info("Building factory layout...")
+
+    factory = Factory(
+        factory_id="FG-001",
+        name="VoltGrid Manufacturing",
+        country="Czech Republic",
+        city="Brno",
+        plant_code="CZ-BR-01",
+        business_unit="Grid Solutions",
+        erp_system="SAP S/4HANA",
+        mes_system="VoltMES",
+        data_platform="Azure Databricks",
+        production_halls=NUMBER_OF_HALLS,
+        production_lines=NUMBER_OF_HALLS * LINES_PER_HALL,
+        shifts=3,
+    )
+
+    halls = generate_production_halls()
+
+    lines = generate_production_lines()
+
+    stations = generate_stations()
+
+    machines = generate_machines()
+
+    validate_machine_layout(machines)
+
+    layout = FactoryLayout(
+        factory=factory,
+        halls=halls,
+        lines=lines,
+        stations=stations,
+        machines=machines,
+        tools=[],
+        products=[],
+        press_programs=[],
+        test_programs=[],
+    )
+
+    logger.info("Factory layout successfully created.")
+
+    return layout
