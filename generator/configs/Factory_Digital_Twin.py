@@ -213,31 +213,24 @@ class Tool:
     next_calibration: Optional[str] = None
 
 
-@dataclass(slots=True,frozen=True)
+@dataclass(slots=True, frozen=True)
 class Product:
 
     product_id: str
-
     product_code: str
-
     product_name: str
-
     family: ProductFamily
 
     rated_voltage_kv: float
-
     rated_current_a: int
+    short_circuit_rating_ka: float
 
     target_force_kn: float
-
     force_tolerance_kn: float
 
     average_cycle_time_sec: int
 
-    short_circuit_rating_ka: float
-
     dielectric_test_voltage_kv: float
-
     pressure_test_bar: float
 
 
