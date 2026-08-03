@@ -477,7 +477,26 @@ class Operator:
 
     active: bool = True
 
+@dataclass(slots=True)
+class OperatorLogin:
 
+    login_id: str
+
+    operator_id: str
+
+    machine_id: str
+
+    execution_id: str
+
+    work_order_id: str
+
+    shift: str
+
+    login_time: datetime
+
+    logout_time: datetime
+
+    login_status: str
 
 @dataclass(slots=True, frozen=True)
 class Operation:
