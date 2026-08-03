@@ -490,27 +490,26 @@ class FactoryLayout:
 
 
 from dataclasses import asdict
+from enum import Enum
 
 
 def to_dict(objects: list) -> list[dict]:
     """
-    Convert a list of dataclass objects into dictionaries.
+    Convert dataclass objects into dictionaries.
+    Serialize Enum values before exporting to CSV.
     """
-    return [asdict(obj) for obj in objects]
 
+    rows = []
 
-#def to_dict(objects):
+    for obj in objects:
 
-    #return [asdict(obj) for obj in objects]
+        row = asdict(obj)
 
+        for key, value in row.items():
 
-#generate_machine_layout()
+            if isinstance(value, Enum):
+                row[key] = value.value
 
-#generate_products()
+        rows.append(row)
 
-#generate_tools()
-
-#generate_press_programs()
-
-#build_factory()
-
+    return rows
