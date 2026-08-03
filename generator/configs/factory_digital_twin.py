@@ -148,6 +148,11 @@ class ExecutionStatus(Enum):
     FAILED = "Failed"
     CANCELLED = "Cancelled"
 
+class SerialStatus(Enum):
+    IN_PRODUCTION = "In Production"
+    COMPLETED = "Completed"
+    SCRAPPED = "Scrapped"
+    REWORK = "Rework"
 
 class Priority(Enum):
     LOW = "Low"
@@ -252,13 +257,13 @@ class SerialNumber:
 
     product_code: str
 
+    product_name: str
+
     production_line: str
 
-    unit_number: int
+    manufacturing_date: datetime
 
-    created_timestamp: datetime
-
-    status: ExecutionStatus
+    status: SerialStatus
 
 @dataclass(slots=True)
 class ProductionHall:
