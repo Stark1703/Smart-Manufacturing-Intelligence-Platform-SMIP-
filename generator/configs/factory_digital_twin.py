@@ -260,6 +260,8 @@ class ProductionLine:
 
     line_name: str
 
+    description: str
+
     status: MachineStatus
 
 
