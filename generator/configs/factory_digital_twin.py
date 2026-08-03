@@ -352,10 +352,10 @@ class Operation:
     quality_checkpoint: bool
 
     standard_cycle_time_sec: int
-    
-    predecessor_operation: int | None
-    
-    is_mandatory: bool
+
+    predecessor_operation: int | None = None
+
+    is_mandatory: bool = True
 
 
 
