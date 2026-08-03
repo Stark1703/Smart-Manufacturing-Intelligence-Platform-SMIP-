@@ -345,11 +345,23 @@ class TestProgram:
 
     product_code: str
 
-    TestType: str
+    operation_code: str
+
+    test_type: TestType
+
+    test_name: str
 
     target_value: float
 
-    tolerance: float
+    minimum_value: float
+
+    maximum_value: float
+
+    unit: str
+
+    standard_duration_sec: int
+
+    active: bool = True
 
 
 
