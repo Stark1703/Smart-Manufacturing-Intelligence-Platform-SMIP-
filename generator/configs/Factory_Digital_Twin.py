@@ -222,6 +222,10 @@ class ProductionExecution:
 
     sap_order_number: str
 
+    product_code: str
+
+    quantity: int
+
     plant_code: str
 
     production_line: str
