@@ -74,8 +74,6 @@ def generate_press_programs(
 
           operation_number=operation_number,
 
-          operation_name=f"PRESS_FIT_{operation_number}",
-
           machine_type=MachineType.PRESS_FITTING,
 
           tool_type=ToolType.PRESS_TOOL,
