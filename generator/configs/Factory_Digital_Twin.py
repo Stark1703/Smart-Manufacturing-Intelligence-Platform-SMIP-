@@ -175,6 +175,8 @@ class WorkOrder:
 
     planned_finish: datetime
 
+    planned_shift: ShiftType
+
     routing_version: str
 
     planner: str
