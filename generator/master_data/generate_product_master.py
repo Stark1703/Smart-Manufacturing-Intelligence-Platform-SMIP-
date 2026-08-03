@@ -5,7 +5,7 @@ generate_product_master.py
 Generate ERP Product Master data for the Smart Manufacturing Lakehouse.
 
 Author:
-Jason + ChatGPT
+Sumanth Vempalle
 
 Version:
 1.0.0
