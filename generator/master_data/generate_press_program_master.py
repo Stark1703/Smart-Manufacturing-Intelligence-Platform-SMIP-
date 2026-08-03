@@ -46,25 +46,49 @@ def load_products() -> pd.DataFrame:
 
     return df
 
-def generate_press_programs(
-    product_df: pd.DataFrame,
-) -> list[PressProgram]:
+for _, product in product_df.iterrows():
 
-    programs = []
+    target_force = product["target_force_kn"]
+    tolerance = product["force_tolerance_kn"]
+    displacement = 25.0
+    cycle_time = product["average_cycle_time_sec"]
 
-    counter = 1
+    # Generate 4 press-fit operations per product
+    for operation_number in range(1, 5):
 
-    for _, product in product_df.iterrows():
+        program = PressProgram(
 
-        target_force = product["target_force_kn"]
+            program_id=f"PP-{counter:04d}",
 
-        tolerance = product["force_tolerance_kn"]
+            product_code=product["product_code"],
 
-        displacement = 42 + (
-            product["rated_voltage_kv"] / 100
+            operation_number=operation_number,
+
+            operation_name=f"PRESS_FIT_{operation_number}",
+
+            machine_type=MachineType.PRESS_FITTING,
+
+            tool_type=ToolType.PRESS_TOOL,
+
+            target_force_kn=target_force,
+
+            force_tolerance_kn=tolerance,
+
+            minimum_force_kn=target_force - tolerance,
+
+            maximum_force_kn=target_force + tolerance,
+
+            target_displacement_mm=round(displacement, 2),
+
+            displacement_tolerance_mm=1.5,
+
+            maximum_cycle_time_sec=cycle_time,
+
         )
 
-        cycle_time = product["average_cycle_time_sec"]
+        programs.append(program)
+
+        counter += 1
 
        program = PressProgram(
 
