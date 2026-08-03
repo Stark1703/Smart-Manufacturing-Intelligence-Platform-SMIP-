@@ -302,6 +302,83 @@ class PressOperation:
 
     quality_result: QualityResult
 
+
+@dataclass(slots=True)
+class ForceCurvePoint:
+
+    point_id: str
+
+    press_operation_id: str
+
+    serial_number: str
+
+    sample_number: int
+
+    timestamp_ms: int
+
+    displacement_mm: float
+
+    force_kn: float
+
+@dataclass(slots=True)
+class PackagingRecord:
+
+    package_id: str
+
+    serial_number: str
+
+    work_order_id: str
+
+    package_type: PackagingType
+
+    operator_id: str
+
+    packaging_timestamp: datetime
+
+    shipment_status: str
+
+@dataclass(slots=True)
+class MaterialScan:
+
+    scan_id: str
+
+    serial_number: str
+
+    material_number: str
+
+    batch_number: str
+
+    supplier: str
+
+    scan_timestamp: datetime
+
+@dataclass(slots=True)
+class TestingResult:
+
+    test_result_id: str
+
+    serial_number: str
+
+    execution_id: str
+
+    work_order_id: str
+
+    test_program_id: str
+
+    test_type: str
+
+    measured_value: float
+
+    minimum_value: float
+
+    maximum_value: float
+
+    unit: str
+
+    quality_result: QualityResult
+
+    test_timestamp: datetime
+
 @dataclass(slots=True)
 class ProductionHall:
 
