@@ -147,7 +147,7 @@ class ProductionPlanner:
         )
 
         cycle_time = int(
-            product["average_cycle_time_sec", 180]
+            product["average_cycle_time_sec"]
         )
 
         planned_finish = (
