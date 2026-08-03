@@ -5,7 +5,7 @@ generate_tool_master.py
 Generate Tool Master for the Smart Manufacturing Lakehouse.
 
 Author:
-Jason + ChatGPT
+Sumanth Vempalle
 
 Version:
 1.0.0
