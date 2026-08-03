@@ -128,6 +128,12 @@ class WorkOrderStatus(Enum):
     COMPLETED = "Completed"
     CANCELLED = "Cancelled"
 
+class Priority(Enum):
+    LOW = "Low"
+    NORMAL = "Normal"
+    HIGH = "High"
+    URGENT = "Urgent"
+
 @dataclass(slots=True)
 class Factory:
 
@@ -156,6 +162,8 @@ class Factory:
     shifts: int
 
 
+from datetime import datetime
+
 @dataclass(slots=True)
 class WorkOrder:
 
@@ -167,15 +175,15 @@ class WorkOrder:
 
     quantity: int
 
+    production_line: str
+
     priority: Priority
 
-    production_line: str
+    planned_shift: ShiftType
 
     planned_start: datetime
 
     planned_finish: datetime
-
-    planned_shift: ShiftType
 
     routing_version: str
 
