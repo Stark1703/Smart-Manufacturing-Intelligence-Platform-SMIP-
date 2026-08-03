@@ -66,33 +66,35 @@ def generate_press_programs(
 
         cycle_time = product["average_cycle_time_sec"]
 
-        program = PressProgram(
+       program = PressProgram(
 
-            program_id=f"PP-{counter:04d}",
+          program_id=f"PP-{counter:04d}",
 
-            program_name=f"PRESS_{product['product_code']}",
+          product_code=product["product_code"],
 
-            product_code=product["product_code"],
+          operation_number=operation_number,
 
-            machine_type=MachineType.PRESS_FITTING,
+          operation_name=f"PRESS_FIT_{operation_number}",
 
-            tool_type=ToolType.PRESS_TOOL,
+          machine_type=MachineType.PRESS_FITTING,
 
-            target_force_kn=target_force,
+          tool_type=ToolType.PRESS_TOOL,
 
-            force_tolerance_kn=tolerance,
+          target_force_kn=target_force,
 
-            minimum_force_kn=target_force - tolerance,
+          force_tolerance_kn=tolerance,
 
-            maximum_force_kn=target_force + tolerance,
+          minimum_force_kn=target_force - tolerance,
 
-            target_displacement_mm=round(displacement,2),
+          maximum_force_kn=target_force + tolerance,
 
-            displacement_tolerance_mm=1.5,
+          target_displacement_mm=round(displacement, 2),
 
-            maximum_cycle_time_sec=cycle_time,
+          displacement_tolerance_mm=1.5,
 
-        )
+          maximum_cycle_time_sec=cycle_time,
+
+)
 
         programs.append(program)
 
