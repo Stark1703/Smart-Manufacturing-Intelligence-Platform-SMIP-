@@ -355,7 +355,7 @@ class MaterialScan:
     scan_timestamp: datetime
 
 @dataclass(slots=True)
-class TestingResult:
+class TestResult:
 
     test_result_id: str
 
@@ -363,23 +363,23 @@ class TestingResult:
 
     execution_id: str
 
-    work_order_id: str
+    product_code: str
 
     test_program_id: str
 
-    test_type: str
+    test_name: str
+
+    target_value: float
 
     measured_value: float
 
-    minimum_value: float
-
-    maximum_value: float
-
     unit: str
 
-    quality_result: QualityResult
+    result: QualityResult
 
-    test_timestamp: datetime
+    start_time: datetime
+
+    end_time: datetime
 
 @dataclass(slots=True)
 class ProductionHall:
