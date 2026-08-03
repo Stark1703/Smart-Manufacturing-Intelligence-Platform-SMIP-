@@ -302,6 +302,16 @@ class FactoryLayout:
 
 
 
+from dataclasses import asdict
+
+
+def to_dict(objects: list) -> list[dict]:
+    """
+    Convert a list of dataclass objects into dictionaries.
+    """
+    return [asdict(obj) for obj in objects]
+
+
 #def to_dict(objects):
 
     #return [asdict(obj) for obj in objects]
