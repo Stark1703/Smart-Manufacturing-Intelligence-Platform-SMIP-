@@ -266,6 +266,43 @@ class SerialNumber:
     status: SerialStatus
 
 @dataclass(slots=True)
+class PressOperation:
+
+    press_operation_id: str
+
+    serial_number: str
+
+    execution_id: str
+
+    work_order_id: str
+
+    operation_number: int
+
+    operation_name: str
+
+    machine_id: str
+
+    tool_id: str
+
+    operator_id: str
+
+    press_program_id: str
+
+    operation_start: datetime
+
+    operation_end: datetime
+
+    target_force_kn: float
+
+    actual_force_kn: float
+
+    force_deviation_kn: float
+
+    cycle_time_sec: int
+
+    quality_result: QualityResult
+
+@dataclass(slots=True)
 class ProductionHall:
 
     hall_id: str
