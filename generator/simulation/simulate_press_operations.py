@@ -300,6 +300,8 @@ def generate_press_operations(
 
                 force_deviation_kn=deviation,
 
+                displacement_mm=float( program["target_displacement_mm"]),
+
                 cycle_time_sec=cycle_time,
 
                 quality_result=quality,
