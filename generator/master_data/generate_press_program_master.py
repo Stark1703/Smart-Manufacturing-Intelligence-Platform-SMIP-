@@ -54,7 +54,21 @@ for _, product in product_df.iterrows():
     cycle_time = product["average_cycle_time_sec"]
 
     # Generate 4 press-fit operations per product
-    for operation_number in range(1, 5):
+    
+    def generate_press_programs(product_df: pd.DataFrame) -> list[PressProgram]:
+
+       programs = []
+
+       counter = 1
+        
+for _, product in product_df.iterrows():
+
+           target_force = product["target_force_kn"]
+           tolerance = product["force_tolerance_kn"]
+           displacement = 25.0
+           cycle_time = product["average_cycle_time_sec"]
+    
+      for operation_number in range(1, 5):
 
         program = PressProgram(
 
