@@ -6,6 +6,7 @@
 
 
 
+
 A complete end-to-end Smart Manufacturing Digital Twin and Manufacturing Execution System (MES) simulation platform built using Python, SQL, and Databricks-ready data pipelines.
 
 The project generates realistic synthetic manufacturing data representing a high-voltage electrical equipment factory, including production planning, manufacturing execution, quality testing, IoT force curves, packaging, and full product traceability.
